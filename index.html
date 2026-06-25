@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#3370ff" />
 
   <!-- TDH: title = 主功能 + Free 钩子; description = 价值主张 -->
   <title>HEIC to JPG — Free, In-Browser, Unlimited. Files Never Uploaded.</title>
@@ -18,6 +19,7 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="stylesheet" href="/assets/styles.css" />
+  <link rel="manifest" href="/manifest.json" />
 
   <!-- FAQ structured data for rich SERP -->
   <script type="application/ld+json">
@@ -39,7 +41,8 @@
       <nav>
         <a href="/">HEIC→JPG</a>
         <a href="/heic-to-png.html">HEIC→PNG</a>
-        <a href="#faq">FAQ</a>
+        <a href="/heic-to-webp.html">HEIC→WebP</a>
+        <a href="/heic-to-pdf.html">HEIC→PDF</a>
       </nav>
     </div>
   </header>
@@ -114,8 +117,8 @@
 
   <footer class="site">
     <div class="wrap">
-      <span>HEIC·Tools — free in-browser image conversion.</span>
-      <span>Files never leave your browser.</span>
+      <span>HEIC Tools — free, private, in-browser image conversion.</span>
+      <span><a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a></span>
     </div>
   </footer>
 
@@ -126,5 +129,29 @@
     window.CONVERT_CONFIG = { to: "jpg", mime: "image/jpeg", ext: "jpg", quality: 0.92 };
   </script>
   <script src="/assets/converter.js"></script>
+
+  <!-- GA4 placeholder — replace G-XXXXXXXXXX with real ID after domain setup -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- Clarity placeholder — replace ID -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "XXXXXXXXXX");
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
 </body>
 </html>

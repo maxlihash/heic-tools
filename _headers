@@ -1,0 +1,25 @@
+# HTML: always revalidate
+/index.html
+  Cache-Control: no-cache
+
+/about.html
+  Cache-Control: no-cache
+
+/privacy.html
+  Cache-Control: no-cache
+
+/heic-to-png.html
+  Cache-Control: no-cache
+
+/heic-to-webp.html
+  Cache-Control: no-cache
+
+/heic-to-pdf.html
+  Cache-Control: no-cache
+
+/manifest.json
+  Cache-Control: no-cache
+
+# Assets: always revalidate (conditional request → 304 if unchanged)
+/assets/*
+  Cache-Control: no-cache

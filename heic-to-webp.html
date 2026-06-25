@@ -3,39 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#3370ff" />
-
-  <title>HEIC to PNG — Free, In-Browser, Lossless. Files Never Uploaded.</title>
-  <meta name="description" content="Convert HEIC to PNG instantly in your browser. 100% free, unlimited, batch, lossless. Your files never leave your device — no upload, no signup." />
-  <link rel="canonical" href="https://example.com/heic-to-png.html" />
-
+  <title>HEIC to WebP — Free, In-Browser, Smaller Files. No Upload.</title>
+  <meta name="description" content="Convert HEIC to WebP instantly in your browser. 100% free, unlimited, batch. Smaller than JPG, perfect for web. Files never leave your device." />
+  <link rel="canonical" href="https://example.com/heic-to-webp.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="HEIC to PNG — Free, Private, In-Browser Converter" />
-  <meta property="og:description" content="Convert iPhone HEIC photos to lossless PNG locally. No upload, unlimited, batch." />
+  <meta property="og:title" content="HEIC to WebP — Free, Private, In-Browser Converter" />
+  <meta property="og:description" content="Convert iPhone HEIC photos to WebP locally. Smaller files for web, no upload, unlimited." />
   <meta property="og:image" content="https://example.com/assets/og.png" />
-  <meta property="og:url" content="https://example.com/heic-to-png.html" />
+  <meta property="og:url" content="https://example.com/heic-to-webp.html" />
   <meta name="twitter:card" content="summary_large_image" />
-
+  <meta name="theme-color" content="#3370ff" />
   <link rel="stylesheet" href="/assets/styles.css" />
   <link rel="manifest" href="/manifest.json" />
 </head>
 <body>
   <header class="site">
     <div class="wrap">
-      <div class="logo">HEIC<span>·</span>Tools</div>
+      <a href="/" class="logo">HEIC<span>·</span>Tools</a>
       <nav>
         <a href="/">HEIC→JPG</a>
         <a href="/heic-to-png.html">HEIC→PNG</a>
         <a href="/heic-to-webp.html">HEIC→WebP</a>
-        <a href="/heic-to-pdf.html">HEIC→PDF</a>
+        <a href="#faq">FAQ</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
     <div class="hero">
-      <h1>HEIC to PNG Converter</h1>
-      <p class="sub">Convert iPhone HEIC photos to lossless PNG — free, unlimited, 100% in your browser. Files never leave your device.</p>
+      <h1>HEIC to WebP Converter</h1>
+      <p class="sub">Convert iPhone HEIC photos to WebP — smaller files, same quality. Free, unlimited, 100% in your browser.</p>
 
       <div class="dropzone" id="dropzone">
         <div class="big">Drop HEIC files here</div>
@@ -43,7 +40,13 @@
         <input type="file" id="fileInput" accept=".heic,.heif,image/heic,image/heif" multiple />
       </div>
 
-      <!-- PNG is lossless: no quality slider -->
+      <div class="controls">
+        <label>Quality
+          <input type="range" id="quality" min="0.5" max="1" step="0.01" value="0.85" />
+          <span id="qualityVal">85%</span>
+        </label>
+      </div>
+
       <div class="files" id="fileList"></div>
 
       <div class="actions">
@@ -55,7 +58,7 @@
       <div class="badges">
         <span class="badge"><b>100%</b> in-browser</span>
         <span class="badge"><b>No</b> upload</span>
-        <span class="badge"><b>Lossless</b> PNG</span>
+        <span class="badge"><b>Smaller</b> than JPG</span>
         <span class="badge"><b>No</b> signup</span>
       </div>
     </div>
@@ -63,10 +66,10 @@
     <section id="faq" class="faq">
       <h2>FAQ</h2>
       <dl>
+        <dt>Why WebP?</dt>
+        <dd>WebP files are 25-35% smaller than JPG at the same quality. Better for websites, email attachments.</dd>
         <dt>Are my photos uploaded?</dt>
         <dd>No. Everything runs in your browser; files never leave your device.</dd>
-        <dt>JPG or PNG — which should I pick?</dt>
-        <dd>PNG is lossless (larger files, perfect quality). For smaller photos, use <a href="/">HEIC to JPG</a>.</dd>
       </dl>
     </section>
 
@@ -75,6 +78,8 @@
       <div class="matrix">
         <a href="/">HEIC to JPG</a>
         <a href="/heic-to-png.html">HEIC to PNG</a>
+        <a href="/heic-to-webp.html">HEIC to WebP</a>
+        <a href="/heic-to-pdf.html">HEIC to PDF</a>
       </div>
     </section>
   </main>
@@ -89,8 +94,7 @@
   <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script>
-    /* matrix = same engine, different config. Add new pages by copying this. */
-    window.CONVERT_CONFIG = { to: "png", mime: "image/png", ext: "png", quality: 1 };
+    window.CONVERT_CONFIG = { to: "webp", mime: "image/webp", ext: "webp", quality: 0.85 };
   </script>
   <script src="/assets/converter.js"></script>
   <script>

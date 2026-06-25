@@ -110,13 +110,55 @@
       if (!queue[i].blob) await convertOne(queue[i]);
     }
     refreshButtons();
-    // auto-download single file for convenience
+    // auto-download single file for convenience (skip PDF — user picks layout)
     var done = queue.filter(function (q) { return q.blob; });
-    if (done.length === 1) downloadBlob(done[0].blob, done[0].outName);
+    if (!cfg.pdf && done.length === 1) downloadBlob(done[0].blob, done[0].outName);
   }
 
   async function downloadAll() {
     var done = queue.filter(function (q) { return q.blob; });
+    if (!done.length) return;
+
+    // PDF mode: combine all into one PDF document
+    if (cfg.pdf) {
+      var layoutSingle = true;
+      var layoutRadio = document.querySelector('input[name="layout"]:checked');
+      if (layoutRadio) layoutSingle = layoutRadio.value === 'single';
+
+      if (layoutSingle) {
+        var pdfLib = window.PDFLib;
+        var doc = await pdfLib.PDFDocument.create();
+        for (var i = 0; i < done.length; i++) {
+          var imgBytes = await done[i].blob.arrayBuffer();
+          var ext = done[i].outName.split('.').pop().toLowerCase();
+          var embedFn = ext === 'png' ? doc.embedPng : doc.embedJpg;
+          var img = await embedFn.call(doc, imgBytes);
+          var page = doc.addPage([img.width, img.height]);
+          page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+        }
+        var pdfBytes = await doc.save();
+        downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), 'converted.pdf');
+      } else {
+        // Separate PDFs — zip them
+        var zip = new window.JSZip();
+        for (var j = 0; j < done.length; j++) {
+          var imgBytes2 = await done[j].blob.arrayBuffer();
+          var ext2 = done[j].outName.split('.').pop().toLowerCase();
+          var doc2 = await window.PDFLib.PDFDocument.create();
+          var embedFn2 = ext2 === 'png' ? doc2.embedPng : doc2.embedJpg;
+          var img2 = await embedFn2.call(doc2, imgBytes2);
+          var page2 = doc2.addPage([img2.width, img2.height]);
+          page2.drawImage(img2, { x: 0, y: 0, width: img2.width, height: img2.height });
+          var pdfBytes2 = await doc2.save();
+          zip.file(done[j].outName.replace(/\.\w+$/, '.pdf'), pdfBytes2);
+        }
+        var zipContent = await zip.generateAsync({ type: 'blob' });
+        downloadBlob(zipContent, 'converted-pdf.zip');
+      }
+      return;
+    }
+
+    // Non-PDF mode
     if (done.length === 1) { downloadBlob(done[0].blob, done[0].outName); return; }
     var zip = new window.JSZip();
     done.forEach(function (q) { zip.file(q.outName, q.blob); });

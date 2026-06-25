@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>About — HEIC Tools — Free In-Browser HEIC Converter</title>
+  <meta name="description" content="HEIC Tools converts iPhone HEIC photos to JPG, PNG, PDF, and WebP — 100% free, in your browser. No upload, no signup, unlimited. Learn how it works and how to add to your home screen." />
+  <link rel="canonical" href="https://example.com/about" />
+  <meta property="og:title" content="About HEIC Tools — Free, Private Image Conversion" />
+  <meta property="og:description" content="Convert HEIC images locally in your browser. No upload, no limits." />
+  <meta property="og:url" content="https://example.com/about" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#3370ff" />
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a href="/" class="logo">HEIC<span>·</span>Tools</a>
+      <nav>
+        <a href="/">HEIC→JPG</a>
+        <a href="/heic-to-png.html">HEIC→PNG</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc">
+    <h1>About HEIC Tools</h1>
+    <p class="lead">Built for a simple reason: you shot photos on your iPhone, they're in HEIC format, and you just want to open them anywhere — without uploading to someone else's server.</p>
+
+    <h2>What it does</h2>
+    <ul>
+      <li><strong>Convert HEIC to JPG</strong> — universal format, opens everywhere</li>
+      <li><strong>Convert HEIC to PNG</strong> — lossless, for editing</li>
+      <li><strong>Convert HEIC to WebP</strong> — smaller file size for web</li>
+      <li><strong>Convert HEIC to PDF</strong> — document ready</li>
+    </ul>
+
+    <h2>Why in-browser matters</h2>
+    <p>All conversion runs entirely in your browser using WebAssembly. Your photos never leave your device — no upload, no server processing, no privacy risk. You can verify this: open DevTools and check the Network tab. After the page loads, there are zero upload requests.</p>
+
+    <h2>How to add to your home screen</h2>
+    <p>Install HEIC Tools like an app for quick access, even offline:</p>
+    <details>
+      <summary>iPhone / iPad (Safari)</summary>
+      <p>Open this page in <strong>Safari</strong> → tap the Share button (box with arrow) → "Add to Home Screen" → Add.</p>
+    </details>
+    <details>
+      <summary>Android (Chrome)</summary>
+      <p>Open in Chrome → menu "⋮" → "Add to Home Screen" / "Install app" → confirm.</p>
+    </details>
+    <details>
+      <summary>Windows / Mac (Chrome / Edge)</summary>
+      <p>Click the install icon in the address bar, or find "Install this app" in the browser menu.</p>
+    </details>
+
+    <h2>Is it really free?</h2>
+    <p>Yes. Completely free. No signup, no account, no limits on number of files. Supported by minimal advertising.</p>
+
+    <h2>Tech</h2>
+    <p>Static HTML + CSS + vanilla JS. HEIC decoding via <code>heic2any</code> (libheif compiled to WebAssembly). Batch compression via <code>JSZip</code>. No backend, no database, no build step. Hosted on Cloudflare Pages.</p>
+
+    <p class="back"><a href="/">← Back to converter</a></p>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <span>HEIC Tools — free, private, in-browser image conversion.</span>
+      <span><a href="/">Home</a> · <a href="/privacy.html">Privacy</a></span>
+    </div>
+  </footer>
+</body>
+</html>
