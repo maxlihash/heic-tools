@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- TDH: title = 主功能 + Free 钩子; description = 价值主张 -->
+  <title>HEIC to JPG — Free, In-Browser, Unlimited. Files Never Uploaded.</title>
+  <meta name="description" content="Convert HEIC to JPG instantly in your browser. 100% free, unlimited, batch supported. Your files never leave your device — no upload, no signup, no ads wall." />
+  <link rel="canonical" href="https://example.com/" />
+
+  <!-- OpenGraph: before/after, social = conversion -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="HEIC to JPG — Free, Private, In-Browser Converter" />
+  <meta property="og:description" content="Convert iPhone HEIC photos to JPG locally. No upload, unlimited, batch." />
+  <meta property="og:image" content="https://example.com/assets/og.png" />
+  <meta property="og:url" content="https://example.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/assets/styles.css" />
+
+  <!-- FAQ structured data for rich SERP -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"Is it safe? Are my photos uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Conversion runs entirely in your browser. Your HEIC files never leave your device and are never uploaded to any server."}},
+      {"@type":"Question","name":"Is there a limit on how many files I can convert?","acceptedAnswer":{"@type":"Answer","text":"No limit. Convert unlimited HEIC photos for free, in batch, with no signup."}},
+      {"@type":"Question","name":"What is a HEIC file?","acceptedAnswer":{"@type":"Answer","text":"HEIC is the high-efficiency image format iPhones use by default. JPG is the universally compatible format you can open anywhere."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <div class="logo">HEIC<span>·</span>Tools</div>
+      <nav>
+        <a href="/">HEIC→JPG</a>
+        <a href="/heic-to-png.html">HEIC→PNG</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- tool-first: 首屏即工具 -->
+    <div class="hero">
+      <h1>HEIC to JPG Converter</h1>
+      <p class="sub">Convert iPhone HEIC photos to JPG — free, unlimited, and 100% in your browser. Files never leave your device.</p>
+
+      <div class="dropzone" id="dropzone">
+        <div class="big">Drop HEIC files here</div>
+        <div class="small">or click to choose · batch supported · nothing is uploaded</div>
+        <input type="file" id="fileInput" accept=".heic,.heif,image/heic,image/heif" multiple />
+      </div>
+
+      <div class="controls">
+        <label>Quality
+          <input type="range" id="quality" min="0.5" max="1" step="0.01" value="0.92" />
+          <span id="qualityVal">92%</span>
+        </label>
+      </div>
+
+      <div class="files" id="fileList"></div>
+
+      <div class="actions">
+        <button class="btn" id="convertBtn" disabled>Convert all</button>
+        <button class="btn ghost" id="downloadAllBtn" disabled>Download all (.zip)</button>
+        <button class="btn ghost" id="clearBtn" disabled>Clear</button>
+      </div>
+
+      <div class="badges">
+        <span class="badge"><b>100%</b> in-browser</span>
+        <span class="badge"><b>No</b> upload</span>
+        <span class="badge"><b>Unlimited</b> &amp; batch</span>
+        <span class="badge"><b>No</b> signup</span>
+      </div>
+    </div>
+
+    <section id="how">
+      <h2>How to convert HEIC to JPG</h2>
+      <ol>
+        <li>Drop your <code>.heic</code> files above (or click to pick — batch is fine).</li>
+        <li>Pick quality, then hit <b>Convert all</b>.</li>
+        <li>Save each file, or grab them all as a <b>.zip</b>. Done — nothing was uploaded.</li>
+      </ol>
+    </section>
+
+    <section id="faq" class="faq">
+      <h2>FAQ</h2>
+      <dl>
+        <dt>Is it safe? Are my photos uploaded?</dt>
+        <dd>No. Conversion runs entirely in your browser using WebAssembly. Your files never leave your device.</dd>
+        <dt>Any limit on number of files?</dt>
+        <dd>No limit. Unlimited, free, batch — no signup, no 200-file cap.</dd>
+        <dt>What is a HEIC file?</dt>
+        <dd>The high-efficiency format iPhones shoot by default. JPG opens everywhere; HEIC often won't on Windows.</dd>
+        <dt>Does it work offline?</dt>
+        <dd>After the page loads once, conversion is local — it keeps working without a connection.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>More converters</h2>
+      <div class="matrix">
+        <a href="/">HEIC to JPG</a>
+        <a href="/heic-to-png.html">HEIC to PNG</a>
+        <!-- matrix expansion: add heic-to-pdf, heic-to-webp, webp-to-jpg, png-to-jpg ... -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <span>HEIC·Tools — free in-browser image conversion.</span>
+      <span>Files never leave your browser.</span>
+    </div>
+  </footer>
+
+  <!-- libs (conversion still runs locally; CDN only delivers the code) -->
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script>
+    window.CONVERT_CONFIG = { to: "jpg", mime: "image/jpeg", ext: "jpg", quality: 0.92 };
+  </script>
+  <script src="/assets/converter.js"></script>
+</body>
+</html>

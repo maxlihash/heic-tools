@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>HEIC to PNG — Free, In-Browser, Lossless. Files Never Uploaded.</title>
+  <meta name="description" content="Convert HEIC to PNG instantly in your browser. 100% free, unlimited, batch, lossless. Your files never leave your device — no upload, no signup." />
+  <link rel="canonical" href="https://example.com/heic-to-png.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="HEIC to PNG — Free, Private, In-Browser Converter" />
+  <meta property="og:description" content="Convert iPhone HEIC photos to lossless PNG locally. No upload, unlimited, batch." />
+  <meta property="og:image" content="https://example.com/assets/og.png" />
+  <meta property="og:url" content="https://example.com/heic-to-png.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <div class="logo">HEIC<span>·</span>Tools</div>
+      <nav>
+        <a href="/">HEIC→JPG</a>
+        <a href="/heic-to-png.html">HEIC→PNG</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <h1>HEIC to PNG Converter</h1>
+      <p class="sub">Convert iPhone HEIC photos to lossless PNG — free, unlimited, 100% in your browser. Files never leave your device.</p>
+
+      <div class="dropzone" id="dropzone">
+        <div class="big">Drop HEIC files here</div>
+        <div class="small">or click to choose · batch supported · nothing is uploaded</div>
+        <input type="file" id="fileInput" accept=".heic,.heif,image/heic,image/heif" multiple />
+      </div>
+
+      <!-- PNG is lossless: no quality slider -->
+      <div class="files" id="fileList"></div>
+
+      <div class="actions">
+        <button class="btn" id="convertBtn" disabled>Convert all</button>
+        <button class="btn ghost" id="downloadAllBtn" disabled>Download all (.zip)</button>
+        <button class="btn ghost" id="clearBtn" disabled>Clear</button>
+      </div>
+
+      <div class="badges">
+        <span class="badge"><b>100%</b> in-browser</span>
+        <span class="badge"><b>No</b> upload</span>
+        <span class="badge"><b>Lossless</b> PNG</span>
+        <span class="badge"><b>No</b> signup</span>
+      </div>
+    </div>
+
+    <section id="faq" class="faq">
+      <h2>FAQ</h2>
+      <dl>
+        <dt>Are my photos uploaded?</dt>
+        <dd>No. Everything runs in your browser; files never leave your device.</dd>
+        <dt>JPG or PNG — which should I pick?</dt>
+        <dd>PNG is lossless (larger files, perfect quality). For smaller photos, use <a href="/">HEIC to JPG</a>.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>More converters</h2>
+      <div class="matrix">
+        <a href="/">HEIC to JPG</a>
+        <a href="/heic-to-png.html">HEIC to PNG</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <span>HEIC·Tools — free in-browser image conversion.</span>
+      <span>Files never leave your browser.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script>
+    /* matrix = same engine, different config. Add new pages by copying this. */
+    window.CONVERT_CONFIG = { to: "png", mime: "image/png", ext: "png", quality: 1 };
+  </script>
+  <script src="/assets/converter.js"></script>
+</body>
+</html>
