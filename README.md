@@ -6,12 +6,22 @@
 ## 结构
 
 ```
-index.html          # HEIC → JPG 主工具页（首屏即工具）
-heic-to-png.html    # HEIC → PNG（config 驱动，矩阵示例）
+index.html              # HEIC → JPG 主工具页（首屏即工具）
+heic-to-png.html        # HEIC → PNG（config 驱动）
+heic-to-webp.html       # HEIC → WebP
+heic-to-pdf.html        # HEIC → PDF（pdf-lib）
+webp-to-jpg.html        # WebP → JPG（Canvas API，无须 heic2any）
+png-to-jpg.html         # PNG → JPG（Canvas API）
+how-to-open-heic.html   # 指南：Windows/Mac/iPhone/Android 如何打开 HEIC
+about.html              # 关于页
+privacy.html            # 隐私政策（含 GA/Clarity/AdSense 披露）
 assets/
-  styles.css        # 全站样式
-  converter.js      # 共享转换引擎（heic2any 解码 + JSZip 批量打包）
-sitemap.xml         # 提交 Google + Bing
+  styles.css            # 全站样式（亮色+暗色，移动优先）
+  converter.js          # HEIC 转换引擎（heic2any + JSZip + pdf-lib）
+  icon-192.png          # PWA 图标
+  icon-512.png          # PWA 图标
+  og.png                # 社交分享图 (1200×630)
+sitemap.xml             # 提交 Google + Bing
 robots.txt
 ```
 
@@ -44,7 +54,7 @@ python3 -m http.server 8080
 ## 部署（Cloudflare Pages，零成本）
 
 1. 推到 git → Cloudflare Pages 连仓库，无构建命令、输出目录设为本目录
-2. 把所有 `https://example.com` 占位换成真实域名（TDH/canonical/OG/sitemap/robots）
+2. 把所有 `https://heicio.com` 占位换成真实域名（TDH/canonical/OG/sitemap/robots）
 3. 配 Cloudflare：SSL=Full、缓存规则
 4. 接 GA + GSC + Clarity；提交 sitemap 到 Google + Bing
 5. 申请 AdSense（补 about/privacy 页让内容完整再申请）
@@ -52,8 +62,9 @@ python3 -m http.server 8080
 ## 待办（P0 之后）
 
 - [ ] 真实域名替换占位符
-- [ ] og.png（before/after 对比图）
-- [ ] about / privacy 页（AdSense 过审）
-- [ ] 矩阵扩展：heic-to-pdf / heic-to-webp / webp-to-jpg / png-to-jpg
-- [ ] how-to 内容页（windows/win11/mac/iphone）抢信息流量
+- [x] og.png（before/after 对比图）
+- [x] about / privacy 页（AdSense 过审）
+- [x] 矩阵扩展：heic-to-pdf / heic-to-webp / webp-to-jpg / png-to-jpg
+- [x] how-to 内容页（windows/win11/mac/iphone）抢信息流量
 - [ ] 导流入口：批量/API 付费版（可挂 xpay → Agent 也能调）
+- [x] PWA 图标（192+512）

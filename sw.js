@@ -8,7 +8,7 @@ self.addEventListener('install', e => {
     caches.open(CACHE).then(c => c.addAll([
       '/',
       '/assets/styles.css',
-      '/assets/app.js',
+      '/assets/converter.js',
       '/manifest.json',
     ]).catch(() => {}))
   );

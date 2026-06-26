@@ -14,7 +14,16 @@
 /heic-to-webp.html
   Cache-Control: no-cache
 
+/webp-to-jpg.html
+  Cache-Control: no-cache
+
+/png-to-jpg.html
+  Cache-Control: no-cache
+
 /heic-to-pdf.html
+  Cache-Control: no-cache
+
+/how-to-open-heic.html
   Cache-Control: no-cache
 
 /manifest.json

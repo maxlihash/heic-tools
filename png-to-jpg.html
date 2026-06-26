@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PNG to JPG — Free, In-Browser, Batch. No Upload.</title>
+  <meta name="description" content="Convert PNG to JPG instantly in your browser — smaller file size, universal compatibility. 100% free, unlimited, batch. Files never leave your device." />
+  <link rel="canonical" href="https://heicio.com/png-to-jpg.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="PNG to JPG — Free, Private, In-Browser Converter" />
+  <meta property="og:description" content="Convert PNG images to JPG locally. Smaller files, no upload, unlimited batch." />
+  <meta property="og:image" content="https://heicio.com/assets/og.png" />
+  <meta property="og:url" content="https://heicio.com/png-to-jpg.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#3370ff" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <link rel="manifest" href="/manifest.json" />
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a href="/" class="logo">HEIC<span>·</span>Tools</a>
+      <nav>
+        <a href="/">HEIC→JPG</a>
+        <a href="/heic-to-png.html">HEIC→PNG</a>
+        <a href="/heic-to-webp.html">HEIC→WebP</a>
+        <a href="/heic-to-pdf.html">HEIC→PDF</a>
+        <a href="/how-to-open-heic.html">Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <h1>PNG to JPG Converter</h1>
+      <p class="sub">Convert PNG images to smaller JPG files — free, unlimited, 100% in your browser. Files never leave your device.</p>
+
+      <div class="dropzone" id="dropzone">
+        <div class="big">Drop PNG files here</div>
+        <div class="small">or click to choose · batch supported · nothing is uploaded</div>
+        <input type="file" id="fileInput" accept=".png,image/png" multiple />
+      </div>
+
+      <div class="controls">
+        <label>Quality
+          <input type="range" id="quality" min="0.5" max="1" step="0.01" value="0.92" />
+          <span id="qualityVal">92%</span>
+        </label>
+      </div>
+
+      <div class="files" id="fileList"></div>
+
+      <div class="actions">
+        <button class="btn" id="convertBtn" disabled>Convert all</button>
+        <button class="btn ghost" id="downloadAllBtn" disabled>Download all (.zip)</button>
+        <button class="btn ghost" id="clearBtn" disabled>Clear</button>
+      </div>
+
+      <div class="badges">
+        <span class="badge"><b>100%</b> in-browser</span>
+        <span class="badge"><b>No</b> upload</span>
+        <span class="badge"><b>Smaller</b> than PNG</span>
+        <span class="badge"><b>No</b> signup</span>
+      </div>
+    </div>
+
+    <section id="faq" class="faq">
+      <h2>FAQ</h2>
+      <dl>
+        <dt>Why convert PNG to JPG?</dt>
+        <dd>PNG files are often 5-10× larger than JPG for photos. Converting to JPG saves storage space and makes sharing faster. JPG also has better compatibility.</dd>
+        <dt>Are my photos uploaded?</dt>
+        <dd>No. Everything runs in your browser using the Canvas API. Files never leave your device.</dd>
+        <dt>Will I lose transparency?</dt>
+        <dd>Yes — JPG doesn't support transparency. Transparent areas will be filled with white. If you need transparency, keep the PNG or convert to WebP instead.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>More converters</h2>
+      <div class="matrix">
+        <a href="/">HEIC to JPG</a>
+        <a href="/heic-to-png.html">HEIC to PNG</a>
+        <a href="/heic-to-webp.html">HEIC to WebP</a>
+        <a href="/heic-to-pdf.html">HEIC to PDF</a>
+        <a href="/webp-to-jpg.html">WebP to JPG</a>
+        <a href="/png-to-jpg.html">PNG to JPG</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <span>HEIC Tools — free, private, in-browser image conversion.</span>
+      <span><a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script>
+    // Canvas-based conversion for non-HEIC formats (no heic2any needed)
+    (function () {
+      "use strict";
+      var cfg = { to: "jpg", mime: "image/jpeg", ext: "jpg", quality: 0.92 };
+      var $ = function (s) { return document.querySelector(s); };
+      var input = $("#fileInput");
+      var fileList = $("#fileList");
+      var convertBtn = $("#convertBtn");
+      var downloadAllBtn = $("#downloadAllBtn");
+      var clearBtn = $("#clearBtn");
+      var qualityRange = $("#quality");
+      var qualityVal = $("#qualityVal");
+      var queue = [];
+
+      var validTypes = { "image/webp": true, "image/png": true, "image/jpeg": true, "image/gif": true, "image/bmp": true, "image/svg+xml": true };
+
+      function isValid(file) {
+        if (validTypes[file.type]) return true;
+        var n = (file.name || "").toLowerCase();
+        return n.endsWith(".webp") || n.endsWith(".png") || n.endsWith(".jpg") || n.endsWith(".jpeg") || n.endsWith(".gif") || n.endsWith(".bmp") || n.endsWith(".svg");
+      }
+
+      function outName(name) {
+        return name.replace(/\.\w+$/i, "") + "." + cfg.ext;
+      }
+
+      function addFiles(files) {
+        Array.prototype.forEach.call(files, function (file) {
+          if (!isValid(file)) return;
+          var row = document.createElement("div");
+          row.className = "file";
+          var nameEl = document.createElement("div");
+          nameEl.className = "name";
+          nameEl.textContent = file.name;
+          var status = document.createElement("div");
+          status.className = "status";
+          status.textContent = "ready";
+          row.appendChild(nameEl);
+          row.appendChild(status);
+          fileList.appendChild(row);
+          queue.push({ file: file, row: row, statusEl: status, blob: null, outName: outName(file.name) });
+        });
+        refreshButtons();
+      }
+
+      function refreshButtons() {
+        convertBtn.disabled = queue.length === 0;
+        var anyDone = queue.some(function (q) { return q.blob; });
+        downloadAllBtn.disabled = !anyDone;
+        clearBtn.disabled = queue.length === 0;
+      }
+
+      function downloadBlob(blob, filename) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+      }
+
+      function convertOne(item) {
+        return new Promise(function (resolve, reject) {
+          item.statusEl.className = "status";
+          item.statusEl.textContent = "converting…";
+          var reader = new FileReader();
+          reader.onload = function () {
+            var img = new Image();
+            img.onload = function () {
+              var c = document.createElement("canvas");
+              c.width = img.naturalWidth;
+              c.height = img.naturalHeight;
+              var ctx = c.getContext("2d");
+              // JPG doesn't support alpha — fill with white background
+              ctx.fillStyle = "#ffffff";
+              ctx.fillRect(0, 0, c.width, c.height);
+              ctx.drawImage(img, 0, 0);
+              var q = qualityRange ? parseFloat(qualityRange.value) : cfg.quality;
+              c.toBlob(function (blob) {
+                item.blob = blob;
+                item.statusEl.className = "status done";
+                item.statusEl.textContent = "done · click to save";
+                item.row.style.cursor = "pointer";
+                item.row.onclick = function () { downloadBlob(item.blob, item.outName); };
+                resolve();
+              }, cfg.mime, q);
+            };
+            img.onerror = function () {
+              item.statusEl.className = "status err";
+              item.statusEl.textContent = "failed (not a valid image?)";
+              reject(new Error("Image load failed"));
+            };
+            img.src = reader.result;
+          };
+          reader.onerror = function () {
+            item.statusEl.className = "status err";
+            item.statusEl.textContent = "failed (cannot read file)";
+            reject(new Error("FileReader failed"));
+          };
+          reader.readAsDataURL(item.file);
+        });
+      }
+
+      async function convertAll() {
+        convertBtn.disabled = true;
+        for (var i = 0; i < queue.length; i++) {
+          if (!queue[i].blob) await convertOne(queue[i]);
+        }
+        refreshButtons();
+        var done = queue.filter(function (q) { return q.blob; });
+        if (done.length === 1) downloadBlob(done[0].blob, done[0].outName);
+      }
+
+      async function downloadAll() {
+        var done = queue.filter(function (q) { return q.blob; });
+        if (!done.length) return;
+        if (done.length === 1) { downloadBlob(done[0].blob, done[0].outName); return; }
+        var zip = new window.JSZip();
+        done.forEach(function (q) { zip.file(q.outName, q.blob); });
+        var content = await zip.generateAsync({ type: "blob" });
+        downloadBlob(content, "converted-jpg.zip");
+      }
+
+      function clearAll() {
+        queue = [];
+        fileList.innerHTML = "";
+        refreshButtons();
+      }
+
+      var dz = $("#dropzone");
+      if (dz) {
+        dz.addEventListener("click", function () { input.click(); });
+        ["dragenter", "dragover"].forEach(function (ev) {
+          dz.addEventListener(ev, function (e) { e.preventDefault(); dz.classList.add("drag"); });
+        });
+        ["dragleave", "drop"].forEach(function (ev) {
+          dz.addEventListener(ev, function (e) { e.preventDefault(); dz.classList.remove("drag"); });
+        });
+        dz.addEventListener("drop", function (e) {
+          if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+        });
+      }
+      if (input) input.addEventListener("change", function () { addFiles(input.files); input.value = ""; });
+      if (convertBtn) convertBtn.addEventListener("click", convertAll);
+      if (downloadAllBtn) downloadAllBtn.addEventListener("click", downloadAll);
+      if (clearBtn) clearBtn.addEventListener("click", clearAll);
+      if (qualityRange && qualityVal) {
+        qualityVal.textContent = Math.round(qualityRange.value * 100) + "%";
+        qualityRange.addEventListener("input", function () {
+          qualityVal.textContent = Math.round(qualityRange.value * 100) + "%";
+        });
+      }
+      refreshButtons();
+    })();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+</body>
+</html>
