@@ -1,6 +1,6 @@
 # HEIC·Tools — 浏览器端图片转换工具站（P0 MVP）
 
-起手词 `heic to jpg`。纯静态、零服务器、文件不出浏览器。
+**[heicio.com](https://heicio.com)** — 起手词 `heic to jpg`。纯静态、零服务器、文件不出浏览器。
 对应方案：`../../docs/方案-图片文件转换工具站.md`、竞品/词族：`../../docs/heic-to-jpg-竞品拆解与词族.md`
 
 ## 结构
